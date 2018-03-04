@@ -1,0 +1,10 @@
+server:
+  port: 8090
+  
+debug: false
+logging: 
+  file: logs\\ewallet.log
+
+wallet:
+  eth:
+    url: http://119.23.108.120:8545;   
