@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.water.exchange.wallet.ether.WalletConstants;
-import com.water.exchange.wallet.service.EthereumService;
+import com.water.exchange.wallet.service.EtherService;
 
 /**
 * @auther: Water
@@ -19,7 +19,7 @@ import com.water.exchange.wallet.service.EthereumService;
 public class EtherController {
 	
 	@Autowired
-	private EthereumService ethereumService;
+	private EtherService ethereumService;
 
 	@RequestMapping("/wallet/newaccount/eth")
 	public String newAccount(){
@@ -40,6 +40,8 @@ public class EtherController {
 	
 	@RequestMapping("/wallet/balance/eth")
 	public String getBalance(@RequestBody String account){
+	//	account = account.substring(0,account.length()-1);
+	//	System.out.println("getBalance, account:" + account + ";;;;;");
 		return ethereumService.getBalance(account);
 	}
 

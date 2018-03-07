@@ -94,4 +94,34 @@ public class EtherRpcHelper implements EtherHelper{
 		return null;
 	}
 
+	@Override
+	public long eth_blockNumber() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public long eth_getBlockTransactionCountByNumber(long blockNumber) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public BlockTransaction eth_getTransactionByBlockNumberAndIndex(long blockNumber, long index) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public BlockTransaction eth_getTransactionByHash(String hash) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public double getTokenBalance(String contractAddress, String account) throws Throwable {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

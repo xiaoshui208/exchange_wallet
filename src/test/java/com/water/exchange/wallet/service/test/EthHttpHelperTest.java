@@ -7,8 +7,11 @@ import java.util.List;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSON;
+import com.water.exchange.wallet.ether.BlockTransaction;
 import com.water.exchange.wallet.ether.EthUtil;
 import com.water.exchange.wallet.ether.EtherHelper;
 import com.water.exchange.wallet.ether.EtherHttpHelper;
@@ -24,8 +27,10 @@ import com.water.exchange.wallet.ether.WalletConstants;
 
 
 public class EthHttpHelperTest {
+	
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	private static EtherHelper etherHelper;
+	private static EtherHttpHelper etherHelper;
 	
 	@BeforeClass
 	public static void before(){
@@ -38,7 +43,7 @@ public class EthHttpHelperTest {
 		String eth_gasPrice;
 		try {
 			eth_gasPrice = etherHelper.eth_gasPrice();
-			System.out.println("eth_gasPrice:" + eth_gasPrice);	
+			logger.info("eth_gasPrice:" + eth_gasPrice);	
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
@@ -48,7 +53,7 @@ public class EthHttpHelperTest {
 	public void eth_getBalance_test(){
 		try {
 			double eth_getBalance = etherHelper.eth_getBalance("0x251a02b66543ee93fe2f4214a302e2609da07659");
-			System.out.println("eth_getBalance:" + eth_getBalance);	
+			logger.info("eth_getBalance:" + eth_getBalance);	
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
@@ -58,7 +63,7 @@ public class EthHttpHelperTest {
 	public void personal_newAccount_test(){	
 		try {
 			String personal_newAccount = etherHelper.personal_newAccount(WalletConstants.ACCOUNT_COMMON_PASSWORD);
-			System.out.println("personal_newAccount:" + personal_newAccount);	
+			logger.info("personal_newAccount:" + personal_newAccount);	
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
@@ -68,9 +73,32 @@ public class EthHttpHelperTest {
 	public void eth_accounts_test(){	
 		try {
 			List<String> eth_accounts = etherHelper.eth_accounts();
-			System.out.println("eth_accounts:" + eth_accounts);	
+			logger.info("eth_accounts:" + eth_accounts);	
 		} catch (Throwable e) {
 			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void eth_blockNumber(){
+		long blockNumber = etherHelper.eth_blockNumber();
+		logger.info("eth_blockNumber : " + blockNumber);
+	}
+	
+	@Test
+	public void eth_getBlockTransactionCountByNumber(){		
+		long blockNumber = etherHelper.eth_blockNumber();
+		long count = etherHelper.eth_getBlockTransactionCountByNumber(blockNumber);
+		logger.info("count:" + count);
+	}
+	
+	@Test
+	public void eth_getTransactionByBlockNumberAndIndex(){
+		long blockNumber = etherHelper.eth_blockNumber();
+		long count = etherHelper.eth_getBlockTransactionCountByNumber(blockNumber);
+		for(int i=0; i<count; i++){
+			BlockTransaction result = etherHelper.eth_getTransactionByBlockNumberAndIndex(blockNumber, i);
+			logger.info("result:" + JSON.toJSONString(result));
 		}
 	}
 		
@@ -78,7 +106,7 @@ public class EthHttpHelperTest {
 	public void personal_lockAccount_test(){
 		try {
 			boolean personal_lockAccount = etherHelper.personal_lockAccount("0x251a02b66543ee93fe2f4214a302e2609da07659");
-			System.out.println("personal_lockAccount:" + personal_lockAccount);	
+			logger.info("personal_lockAccount:" + personal_lockAccount);	
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
@@ -88,7 +116,7 @@ public class EthHttpHelperTest {
 	public void personal_unlockAccount_test(){
 		try {
 		    boolean personal_unlockAccount = etherHelper.personal_unlockAccount("0x251a02b66543ee93fe2f4214a302e2609da07659",WalletConstants.ACCOUNT_COMMON_PASSWORD);
-			System.out.println("personal_unlockAccount:" + personal_unlockAccount);	
+		    logger.info("personal_unlockAccount:" + personal_unlockAccount);	
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
@@ -111,7 +139,7 @@ public class EthHttpHelperTest {
 			transactionModel.setGas(gas);
 			transactionModel.setGasPrice(eth_gasPrice);*/
 			String eth_sendTransaction = (String) etherHelper.eth_sendTransaction(transactionModel);
-			System.out.println("eth_sendTransaction:" + eth_sendTransaction);
+			logger.info("eth_sendTransaction:" + eth_sendTransaction);
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}

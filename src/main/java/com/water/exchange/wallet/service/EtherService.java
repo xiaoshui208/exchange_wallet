@@ -7,7 +7,7 @@ package com.water.exchange.wallet.service;
 * 
 */
 
-public interface EthereumService {
+public interface EtherService {
 
 	public String getAccounts();
 	public String newAccount(String password);

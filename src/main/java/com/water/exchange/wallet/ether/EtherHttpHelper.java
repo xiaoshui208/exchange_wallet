@@ -6,6 +6,8 @@ import java.util.List;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.water.exchange.wallet.utils.CommonUtil;
 import com.water.exchange.wallet.utils.HttpUtil;
 
 
@@ -37,6 +39,8 @@ public class EtherHttpHelper implements EtherHelper{
 		return gasPrice;
 	}
 	
+
+	
 	public List<String> eth_accounts(){
 		List<String> params = new ArrayList<String>();
 		Object result = rpcHttpAction(WalletConstants.ETH_ACCOUNTS, params);
@@ -55,12 +59,60 @@ public class EtherHttpHelper implements EtherHelper{
 	}
 	
 	public double eth_getBalance(String account) {
+		double ether = 0;
 		List<String> params = new ArrayList<String>();
 		params.add(account);
 		params.add(WalletConstants.ETH_BLOCK_LATEST);
 		String balance = (String)rpcHttpAction(WalletConstants.ETH_GETBALANCE, params);	
-		double ether = EthUtil.toEtherFromWeiStr(balance);	
+		ether = EthUtil.toEtherFromWeiStr(balance);	
 		return ether;
+	}
+	
+	public long eth_blockNumber(){
+		List<String> params = new ArrayList<String>();
+		String blockNumber = (String)rpcHttpAction(WalletConstants.ETH_BLOCKNUMBER, params);
+		long result = EthUtil.getLongByHexString(blockNumber);
+		return result;
+	}
+	
+	public long eth_getBlockTransactionCountByNumber(long blockNumber){
+		List<String> params = new ArrayList<String>();
+		String numberHex = EthUtil.toHexString(blockNumber);
+		params.add(numberHex);
+		String count = (String)rpcHttpAction(WalletConstants.ETH_GETBLOCKTRANSACTIONCOUNTBYNUMBER, params);
+		long result = EthUtil.getLongByHexString(count);
+		return result;
+	}
+	
+	public BlockTransaction eth_getTransactionByBlockNumberAndIndex(long blockNumber, long index){
+		List<String> params = new ArrayList<String>();
+		String blockNumberHex = EthUtil.toHexString(blockNumber);
+		String indexHex = EthUtil.toHexString(index);
+		params.add(blockNumberHex);
+		params.add(indexHex);
+		JSONObject jsonObject = (JSONObject)rpcHttpAction(WalletConstants.ETH_GETBLOCKTRANSACTIONBYBLOCKNUMBERANDINDEX, params);
+		BlockTransaction blockTransaction = JSON.toJavaObject(jsonObject, BlockTransaction.class);
+		return blockTransaction;
+	}
+	
+	public BlockTransaction eth_getTransactionByHash(String hash){
+		List<String> params = new ArrayList<String>();
+		params.add(hash);
+		JSONObject jsonObject = (JSONObject)rpcHttpAction(WalletConstants.ETH_GETTRANSACTIONBYHASH, params);
+		BlockTransaction blockTransaction = JSON.toJavaObject(jsonObject, BlockTransaction.class);
+		return blockTransaction;
+	}
+	
+	public double getTokenBalance(String contractAddress, String account) throws Throwable{
+		TransactionModel transactionModel = new TransactionModel();	
+		transactionModel.setTo(contractAddress);	
+		String data = EthUtil.createTokenBalanceData(account);
+		transactionModel.setData(data);
+		transactionModel.setValue("0x0");
+
+		String balanceHexStr = eth_call(transactionModel);
+		double balance = EthUtil.toEtherFromWeiStr(balanceHexStr);
+		return balance;
 	}
 	
 	public String eth_call(TransactionModel transactionModel) throws Throwable{		
@@ -124,7 +176,9 @@ public class EtherHttpHelper implements EtherHelper{
 		return eth_sendTransaction;
 	}
 	
-	public Object rpcHttpAction(String method, List params){
+	public Object rpcHttpAction(String method, List params){		
+		System.out.println("JSON.toJSONString(params):" + JSON.toJSONString(params));
+		
 		EthRpcReq ethRpcReq = new EthRpcReq();
 		ethRpcReq.setMethod(method);
 		ethRpcReq.setParams(params);

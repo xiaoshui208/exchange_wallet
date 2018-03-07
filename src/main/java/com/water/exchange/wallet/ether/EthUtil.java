@@ -85,6 +85,14 @@ public class EthUtil {
     	BigInteger bigIntVal = bigDecVal.toBigInteger();
     	return toHexString(bigIntVal);
     }
+    
+    public static String toHexString(long val){
+    	return "0x"+Long.toHexString(val);
+    }
+    
+    public static String toHexString(int val){
+    	return "0x"+Integer.toHexString(val);
+    }
 	
     public static String toHexString(BigInteger bigIntVal){
     	return "0x"+bigIntVal.toString(16);
@@ -97,6 +105,24 @@ public class EthUtil {
     	String val = hexval.substring(2);
     	BigInteger intVal = new BigInteger(val,16);
     	return intVal;
+    }
+    
+    public static int getIntByHexString(String hexval){
+    	if(hexval==null||"".equals(hexval)||hexval.length()<=2){
+			throw new NumberFormatException("Not hex");
+		}
+    	String val = hexval.substring(2);
+    	int result = Integer.parseInt(val, 16);
+    	return result;
+    }
+    
+    public static long getLongByHexString(String hexval){
+    	if(hexval==null||"".equals(hexval)||hexval.length()<=2){
+			throw new NumberFormatException("Not hex");
+		}
+    	String val = hexval.substring(2);
+    	long result = Long.parseLong(val, 16);
+    	return result;
     }
     
 	public static double getEtherWeiRatio(){

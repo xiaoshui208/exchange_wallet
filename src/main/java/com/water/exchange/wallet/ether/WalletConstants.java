@@ -23,7 +23,10 @@ public class WalletConstants {
 	public static final String ETH_COINBASE = "eth_coinbase";
 	public static final String ETH_MINING = "eth_mining";
 	public static final String ETH_ACCOUNTS = "eth_accounts";
-	public static final String ETH_BLOCKNUMBER = "eth_blockNumber";
+	public static final String ETH_BLOCKNUMBER = "eth_blockNumber";	
+	public static final String ETH_GETBLOCKTRANSACTIONCOUNTBYNUMBER = "eth_getBlockTransactionCountByNumber";	
+	public static final String ETH_GETBLOCKTRANSACTIONBYBLOCKNUMBERANDINDEX = "eth_getTransactionByBlockNumberAndIndex";	
+	public static final String ETH_GETTRANSACTIONBYHASH = "eth_getTransactionByHash";
 	public static final String ETH_GETBALANCE = "eth_getBalance";		
 	public static final String ETH_GASPRICE = "eth_gasPrice";
 	public static final String ETH_GETTRANSACTIONCOUNT = "eth_getTransactionCount";
@@ -45,7 +48,7 @@ public class WalletConstants {
 	public static final String CONTRACT_ADDRESS_TEST = "0xa790ee58e977fa691e3a55494384aa2de0f6a832";
 	
 	public static final String ACCOUNT_COMMON_PASSWORD = "cc123456";
-	public static final String ACCOUNT_COMMON_ADDRESS = "0x251a02b66543ee93fe2f4214a302e2609da07659";
+	public static final String ACCOUNT_MAIN_ADDRESS = "0x251a02b66543ee93fe2f4214a302e2609da07659";
 	
 	public static final int BALANCE_DECIMAL_DEFAULT = 18;
 	

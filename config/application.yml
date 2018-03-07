@@ -7,4 +7,7 @@ logging:
 
 wallet:
   eth:
-    url: http://119.23.108.120:8545;   
+    url: http://119.23.108.120:8545   
+    mainAddress: "0x251a02b66543ee93fe2f4214a302e2609da07659"
+    
+  

@@ -3,6 +3,8 @@ package com.water.exchange.wallet.controller.test;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -22,6 +24,8 @@ import com.water.exchange.wallet.message.TransferMsg;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = SpringBootApp.class)
 public class EtherControllerTest {
+	
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
 	private EtherController etherController;
@@ -29,13 +33,13 @@ public class EtherControllerTest {
 	@Test
 	public void newAccount(){
 		String result = etherController.newAccount();
-		System.out.println("getAccountsTest:" + result);
+		logger.info("getAccountsTest:" + result);
 	}
 	
 	@Test
 	public void getAccountsTest(){
 		 String result = etherController.getAccounts();
-		 System.out.println("getAccountsTest:" + result);
+		 logger.info("getAccountsTest:" + result);
 	}
 	
 	@Test
@@ -47,13 +51,13 @@ public class EtherControllerTest {
 		System.out.println("transfer req:" + req);
 		
 		String result = etherController.transfer(req);
-		System.out.println("transfer Test:" + result);
+		logger.info("transfer Test:" + result);
 	}
 	
 	@Test
 	public void getBalanceTest(){
-		String result = etherController.getBalance(WalletConstants.ACCOUNT_COMMON_ADDRESS);
-		System.out.println("getBalanceTest:" + result);
+		String result = etherController.getBalance(WalletConstants.ACCOUNT_MAIN_ADDRESS);
+		logger.info("getBalanceTest:" + result);
 	}
 	
 	@Test
@@ -64,9 +68,9 @@ public class EtherControllerTest {
 		transferMsg.setValue(6);		
 		String req = JSON.toJSONString(transferMsg);
 		
-		System.out.println("transferToken req:" + req);
+		logger.info("transferToken req:" + req);
 		String result = etherController.transferToken(req);
-		System.out.println("transferTokenTest:" + result);
+		logger.info("transferTokenTest:" + result);
 	}
 	
 	@Test
@@ -76,9 +80,9 @@ public class EtherControllerTest {
 		transferMsg.setTo("0x251a02b66543ee93fe2f4214a302e2609da07659");
 		String req = JSON.toJSONString(transferMsg);
 		
-		System.out.println("getTokenBalance req:" + req);
+		logger.info("getTokenBalance req:" + req);
 		String result = etherController.getTokenBalance(req);
-		System.out.println("getTokenBalance:" + result);
+		logger.info("getTokenBalance:" + result);
 	}
 	
 }
